@@ -1,0 +1,22 @@
+.container {
+  padding: 2rem 2rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  background-color: #008037;
+  outline: none;
+  border: none;
+  color: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #039843;
+}
