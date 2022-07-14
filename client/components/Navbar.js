@@ -8,8 +8,8 @@ import Link from 'next/link';
 export default function Navbar() {
   return (
     <div className={styles.container}>
-      <Link href='/'>
-        <Image src={logo} height="50px" width="125px" alt='logo'/>
+      <Link href='/' passHref>
+        <a><Image src={logo} height="50px" width="125px" alt='logo'/></a>
       </Link>
       <ConnectButton/>
     </div>
