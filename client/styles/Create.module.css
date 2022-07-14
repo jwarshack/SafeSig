@@ -1,6 +1,7 @@
 .container {
   padding: 2rem 2rem;
   background-color: #f0f4f2;
+  height: 100%;
 }
 
 .header {

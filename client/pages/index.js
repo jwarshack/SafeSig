@@ -4,8 +4,9 @@ import Alert from '../components/Alert'
 import Navbar from '../components/Navbar'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
-import { AiOutlinePlus } from 'react-icons/ai'
+import { AiOutlinePlus, AiFillGithub } from 'react-icons/ai'
 import { BsSafe } from 'react-icons/bs'
+
 
 export default function Home() {
   return (

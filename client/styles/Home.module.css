@@ -10,6 +10,17 @@
   gap: 40px;
 }
 
+.desc p:last-child {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.desc p:last-child svg {
+  font-size: 30px;
+  margin-left: 10px;
+}
+
 .button {
   background-color: #008037;
   outline: none;
@@ -35,7 +46,7 @@
 .innerWrapper {
   display: flex;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-  margin: auto;
+  margin: 0px auto;
   border-radius: 20px;
   background-color: #fff;
 }

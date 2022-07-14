@@ -9,6 +9,7 @@ import { useContractWrite, useAccount } from 'wagmi'
 export default function Create() {
   const [owners, setOwners] = useState([])
   const [required, setRequired] = useState(1)
+  const [alert, setAlert] = useState(null)
 
   const { address, isConnecting, isDisconnected } = useAccount()
   const { data, isError, isLoading, write } = useContractWrite({
@@ -20,16 +21,25 @@ export default function Create() {
 
   useEffect(() => {
     if (address) {
-      setOwners(owners => [...owners, {id: 0, address: address}])
-      console.log(address)
+      setOwners(owners => [...owners, address])
     }
 
+    return () => setOwners([])
 
-  }, [address])
+
+  }, [])
+
+  // useEffect(() => {
+
+  // }, [owners])
 
   function createSafe() {
-    write()
-
+    owners.forEach((owner) => {
+      if (owner == "" || !owner.startsWith("0x") || owner.length != 42) {
+        console.log("Invalid owner")
+      }
+    })
+    
 
   }
 
@@ -38,7 +48,12 @@ export default function Create() {
   }
 
   function handleInputChange(e) {
-    console.log(e.target)
+    console.log(e.target.value)
+  }
+
+  function deleteOwner(e) {
+    console.log(e.target.value)
+
   }
 
   // if (!address) return <div>Not connected</div>
@@ -58,13 +73,13 @@ export default function Create() {
               <input
                 type='text'
                 className={styles.ownerInput}
-                value={owner.address}
+                value={owner}
                 onChange={handleInputChange}
                 key={index}
               />
               <div className={styles.label}>Owner Address</div>
             </div>
-            <button className={styles.trashBtn}><BsTrash/></button>
+            <button className={styles.trashBtn} key={index} onClick={deleteOwner}><BsTrash/></button>
           </div>
 
         ))}
@@ -78,7 +93,7 @@ export default function Create() {
           <input 
             type='number'
             className={styles.confirmationInput}
-            value={required}
+            placeholder={required}
             min='1'
             max={owners.length}
           />
@@ -88,7 +103,13 @@ export default function Create() {
 
       </div>
 
-      <button className={styles.createBtn} onClick={createSafe}>Create Safe</button>
+      {
+        (required && owners.length > 1) ? 
+        <button className={styles.createBtn} onClick={createSafe}>Create Safe</button>
+        : null
+      }
+
+
     </div>
     </div>
   )
