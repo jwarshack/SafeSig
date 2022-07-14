@@ -1,5 +1,15 @@
 .container {
-  padding: 20px;
+  padding: 40px 20px;
   display: flex;
   justify-content: space-between;
+}
+
+.container p:last-child {
+  display: flex;
+  align-items: center;
+}
+
+.container p:last-child svg {
+  font-size: 20px;
+  margin-left: 10px;
 }

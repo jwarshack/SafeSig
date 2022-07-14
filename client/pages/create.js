@@ -1,18 +1,31 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from '../styles/Create.module.css'
 import {AiOutlineLeft, AiOutlinePlus} from 'react-icons/ai'
+import { BsTrash } from 'react-icons/bs'
 import Link from 'next/link'
 import { FactoryABI, FactoryAddress } from '../config'
-import { useContract, useContractWrite } from 'wagmi'
+import { useContractWrite, useAccount } from 'wagmi'
 
 export default function Create() {
-  const [owners, setOwners] = useState(1)
+  const [owners, setOwners] = useState([])
+  const [required, setRequired] = useState(1)
+
+  const { address, isConnecting, isDisconnected } = useAccount()
   const { data, isError, isLoading, write } = useContractWrite({
     addressOrName: FactoryAddress,
     contractInterface: FactoryABI,
     functionName: 'createMultiSig',
     args: [['0x4a4fD96907e817565D74Cf384418b0885A53bbcD'], 1]
   })
+
+  useEffect(() => {
+    if (address) {
+      setOwners(owners => [...owners, {id: 0, address: address}])
+      console.log(address)
+    }
+
+
+  }, [address])
 
   function createSafe() {
     write()
@@ -21,8 +34,14 @@ export default function Create() {
   }
 
   function addOwner(e) {
-    setOwners(owners => [...owners, e.target.val])
+    setOwners(owners => [...owners, ""])
   }
+
+  function handleInputChange(e) {
+    console.log(e.target)
+  }
+
+  // if (!address) return <div>Not connected</div>
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -33,14 +52,24 @@ export default function Create() {
       <p>Please add the addresses of the owners of your Safe.  We have prefilled the first owner with your connected wallet details, but you are free to change this to a different owner.</p>
       <p>Next, specify how many of owners are required to confirm a transaction before it gets executed. In general, the more confirmations required, the more secure your Safe is.</p>
       <div className={styles.inputSection}>
-        <div className={styles.inputContainer}>
-          <input
-            type='text'
-            className={styles.ownerInput}
-          />
-          <div className={styles.label}>Owner Address</div>
-        </div>
-        <button className={styles.addOwnerBtn}><AiOutlinePlus/> Add another owner</button>
+        {owners.map((owner, index) => (
+          <div className={styles.inputOuter}>
+            <div className={styles.inputInner} key={index}>
+              <input
+                type='text'
+                className={styles.ownerInput}
+                value={owner.address}
+                onChange={handleInputChange}
+                key={index}
+              />
+              <div className={styles.label}>Owner Address</div>
+            </div>
+            <button className={styles.trashBtn}><BsTrash/></button>
+          </div>
+
+        ))}
+
+        <button className={styles.addOwnerBtn} onClick={addOwner}><AiOutlinePlus/> Add another owner</button>
 
       </div>
       <div className={styles.confirmationSection}>
@@ -49,18 +78,17 @@ export default function Create() {
           <input 
             type='number'
             className={styles.confirmationInput}
+            value={required}
+            min='1'
+            max={owners.length}
           />
-          <p>out of 2 owners(s)</p>
+          <p>out of {owners.length} owners(s)</p>
         </div>
 
 
       </div>
 
       <button className={styles.createBtn} onClick={createSafe}>Create Safe</button>
-
-      
-
-        
     </div>
     </div>
   )

@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  height: 100%;
+}
+
+.sideBar {
+  width: 200px;
+}
+
+.innerContainer {
+  background-color: #f0f4f2;
+  width: 100%;
+  padding: 2rem;
+
+
+}
