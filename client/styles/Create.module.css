@@ -1,0 +1,130 @@
+.container {
+  padding: 2rem 2rem;
+  background-color: #f0f4f2;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.header button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #008037;
+  font-size: 20px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+.header button:hover {
+  background-color: #dadedd;
+
+}
+
+.number {
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  background-color: #008037;
+  text-align: center;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.innerContainer {
+  display: flex;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  width: 80%;
+  /* margin: auto; */
+  border-radius: 20px;
+  background-color: #fff;
+  flex-direction: column;
+  padding: 20px;
+  gap: 20px;
+}
+
+.inputSection {
+  border-top: 1px solid #f0f4f2;
+  padding: 20px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputContainer {
+  position: relative;
+  border: 1px;
+
+}
+
+.ownerInput {
+  padding: 15px;
+  border: 1px solid #bebebe;
+  border-radius: 5px;
+  outline: none;
+  width: 400px;
+  font-size: 16px;
+}
+
+.label {
+  position: absolute;
+  top: -10px;
+  left: 8px;
+  font-size: 14px;
+  color: #bebebe;
+  background-color: #fff;
+  padding: 0px 8px;
+}
+
+
+.addOwnerBtn {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  color: #008037;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 200px;
+
+}
+
+.addOwnerBtn:hover {
+  background-color: #00803714;
+}
+
+.addOwnerBtn svg {
+  margin-right: 10px;
+}
+
+.confirmationSection {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.confirmationInput {
+  width: 60px;
+  padding: 5px;
+  font-size: 20px;
+  border: 1px solid #bebebe;
+  border-radius: 5px;
+
+}
+
+.confirmationInner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

@@ -17,7 +17,7 @@ import { publicProvider } from 'wagmi/providers/public';
 import Layout from '../components/Layout';
 
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
+  [chain.rinkeby],
   [
     alchemyProvider({ alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_ID }),
     publicProvider()
@@ -25,7 +25,7 @@ const { chains, provider } = configureChains(
 );
 
 const { connectors } = getDefaultWallets({
-  appName: 'My RainbowKit App',
+  appName: 'SafeSig',
   chains
 });
 
