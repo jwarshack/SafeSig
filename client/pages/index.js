@@ -6,6 +6,7 @@ import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import { AiOutlinePlus, AiFillGithub } from 'react-icons/ai'
 import { BsSafe } from 'react-icons/bs'
+import Footer from '../components/Footer'
 
 
 export default function Home() {
@@ -27,6 +28,7 @@ export default function Home() {
         </div>
 
       </div>
+      <Footer/>
 
     </div>
   )

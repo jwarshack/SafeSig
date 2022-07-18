@@ -162,3 +162,16 @@
   background-color: #039843;
 
 }
+
+@media only screen and (max-width: 800px) {
+  .innerContainer {
+    width: 100%;
+  }
+  .inputInner {
+    width: 100%;
+  }
+  .ownerInput {
+    width: 100%;
+  }
+
+}
