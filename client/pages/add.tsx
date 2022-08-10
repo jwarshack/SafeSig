@@ -1,9 +1,56 @@
-import React from 'react'
+import { gql } from '@apollo/client'
+import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
+import client from '../apolloClient'
 import Header from '../components/Header'
 import Input from '../components/Input'
 
+
+interface Wallet {
+  __typename: string
+  id: string
+}
+
 function Add() {
+
+  const [safeToAdd, setSafeToAdd] = useState<string | null>()
+
+  const router = useRouter()
+
+  const getValidSafes = async (): Promise<string[]> => {
+    const { data } = await client.query({
+      query: gql`
+        {
+          wallets {
+            id
+          }
+        }
+      `
+    })
+
+    const wallets: string[] = data.wallets.map((wallet: Wallet) => wallet.id)
+
+    return wallets
+  }
+
+  const addSafe = async () => {
+    if (!safeToAdd) {
+      return
+    }
+    const validSafes = await getValidSafes()
+    const lowerSafe = safeToAdd!.toLowerCase()
+    const isValidSafe = validSafes.includes(lowerSafe!)
+    if (!isValidSafe) {
+      console.log('This safe is not valid')
+      return
+    }
+
+    router.push(`/${lowerSafe}`)
+
+
+  }
   const onChange = (e: React.ChangeEvent<HTMLInputElement>, id: string)=> {
+    setSafeToAdd(e.target.value)
 
   }
   return (
@@ -18,7 +65,12 @@ function Add() {
           <Input label="Safe Address" placeholder='' onChange={(e) => onChange(e, '1')}/>
         </div>
         <div className='pt-6'>
-        <button className='button w-3/4 mx-auto'>Add Safe</button>
+        <button 
+          className='button w-3/4 mx-auto'
+          onClick={addSafe}
+        >
+          Add Safe
+        </button>
         </div>
 
 

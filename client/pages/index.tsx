@@ -10,26 +10,26 @@ import { BsSafe, BsGithub } from 'react-icons/bs'
 
 
 const Home: NextPage = () => {
-  useEffect(() => {
+  // useEffect(() => {
 
-    const getGraph = async () => {
-      const { data } = await client.query({
-        query: gql`
-          {
-            multiSigs {
-              id
-            }
-          }
-        `
-      })
+  //   const getGraph = async () => {
+  //     const { data } = await client.query({
+  //       query: gql`
+  //         {
+  //           multiSigs {
+  //             id
+  //           }
+  //         }
+  //       `
+  //     })
 
-      console.log(data)
+  //     console.log(data)
 
-    }
+  //   }
 
-    getGraph()
+  //   getGraph()
 
-  }, [])
+  // }, [])
   return (
     <div className='text-center md:text-left p-10 flex flex-col bg-[#f0f4f2] h-full'>
       <h1 className='font-bold text-4xl mb-8'>Welcome to SafeSig.</h1>
