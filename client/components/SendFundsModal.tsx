@@ -38,7 +38,7 @@ function SendFundsModal() {
       <>
       <div className='modal'>
         <h2>Send funds</h2>
-        <button className='button' onClick={() => write()}>Send</button>
+        <button className='button'>Send</button>
       </div>
       </>
 
