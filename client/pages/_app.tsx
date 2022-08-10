@@ -20,13 +20,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   const { chains, provider } = configureChains(
     [chain.rinkeby],
     [
-      alchemyProvider({ alchemyId: process.env.NEXT_PUBLIC_ALCHEMY_ID }),
+      alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_ID }),
       publicProvider()
     ]
   );
+
   
   const { connectors } = getDefaultWallets({
-    appName: 'My RainbowKit App',
+    appName: 'Safe Sig',
     chains
   });
   
