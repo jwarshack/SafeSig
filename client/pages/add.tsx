@@ -3,6 +3,9 @@ import Header from '../components/Header'
 import Input from '../components/Input'
 
 function Add() {
+  const onChange = () => {
+
+  }
   return (
     <div className='h-full bg-[#f0f4f2]'>
       <Header title='Add Existing Safe'/>
@@ -12,7 +15,7 @@ function Add() {
           <p>Your connected wallet does not have to be the owner of this Safe. In this case, the interface will provide you a read-only view.</p>
         </div>
         <div className='py-6'> 
-          <Input label="Safe Address"/>
+          <Input label="Safe Address" placeholder='' onChange={onChange}/>
         </div>
         <div className='pt-6'>
         <button className='button w-3/4 mx-auto'>Add Safe</button>
