@@ -108,7 +108,7 @@ function Create() {
           <p>Next, specify how many of owners are required to confirm a transaction before it gets executed. In general, the more confirmations required, the more secure your Safe is.</p>
         </div>
         <div className='py-6'>
-          <Input label='Owner Address' key={owners[0]?.id} placeholder={address} onChange={onAddressChange}/>
+          <Input label='Owner Address' key={owners[0]?.id} placeholder={address} onChange={(e) => onAddressChange(e, owners[0].id)}/>
           {owners.slice(1).map((owner) => (
             <div className='flex items-center mt-4 gap-4' key={owner.id}>
               <Input 
