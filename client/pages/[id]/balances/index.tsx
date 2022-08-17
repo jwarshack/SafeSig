@@ -4,7 +4,7 @@ import Sidebar from '../../../components/Sidebar'
 function Index() {
   return (
     <div className='flex h-screen'>
-      <Sidebar />
+      {/* <Sidebar /> */}
       <div className='flex flex-col gap-10 bg-[#f0f4f2] flex-1 p-8 w-full'>
         <table className='bg-white rounded-lg'>
           <tr>
