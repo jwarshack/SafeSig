@@ -8,10 +8,14 @@ import { Accordion, AccordionDetails, AccordionSummary, } from '@mui/material'
 import { BsChevronDown, BsGithub } from 'react-icons/bs'
 import { AiOutlineHome } from 'react-icons/ai'
 import { RiCoinsLine, RiArrowUpDownFill } from 'react-icons/ri'
+import { Wallet }  from '../typings'
 
-function Sidebar() {
+interface Props {
+  wallet: Wallet
+}
 
-  const [wallet, setWallet] = useState<string>('0x63e7ecbffb3f2570d19fa405fc112808772f2ab8')
+function Sidebar({ wallet }: Props) {
+
   const [expanded, setExpanded] = useState<string | false>(false)
 
   const handleExpand = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -26,19 +30,19 @@ function Sidebar() {
       <div className='p-5 flex flex-col items-center gap-4'>
         <Davatar
           size={40}
-          address='0xdAC13042229bB1EA919368eddA8A06d05bBA4560'
+          address={wallet.id}
           generatedAvatarType='blockies'
         />
-        <p className='text-gray-400 text-sm'>{shortAddress(wallet)}</p>
+        <p className='text-gray-400 text-sm'>{shortAddress(wallet.id)}</p>
         <div className='flex gap-2'>
           <button 
             className='bg-[#f0f4f2] p-2 rounded text-green-600 hover:bg-green-100'
-            onClick={() => navigator.clipboard.writeText(wallet)}
+            onClick={() => navigator.clipboard.writeText(wallet.id)}
           >
               <FaRegCopy />
             </button>
           <a 
-            href={`https://rinkeby.etherscan.io/address/${wallet}`}
+            href={`https://rinkeby.etherscan.io/address/${wallet.id}`}
             target='__blank'
             rel='noopener noreferrer'
           >

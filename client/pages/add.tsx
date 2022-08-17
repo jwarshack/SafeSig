@@ -78,6 +78,7 @@ function Add() {
           className='button w-3/4 mx-auto'
           onClick={addSafe}
         >
+          Add Safe
           {/* {!isLoading ? 'Add Safe' : <Loader color='white' />} */}
 
         </button>

@@ -32,8 +32,11 @@ const Home: NextPage = () => {
   // }, [])
   return (
     <div className='text-center md:text-left p-10 flex flex-col bg-[#f0f4f2] h-full'>
+      <Head>
+        <title>SafeSig</title>
+      </Head>
       <h1 className='font-bold text-4xl mb-8'>Welcome to SafeSig.</h1>
-      <p>Safe sig is the premier multisig wallet factory built on the Rinkeby blockchain.</p>
+      <p>SafeSig is the premier multisig wallet factory built on the Rinkeby blockchain.</p>
         <div className='flex flex-col md:flex-row text-center md:text-left mx-auto rounded-xl divide-y md:divide-x divide-gray-100 mt-10 shadow-xl'>
           <div className='flex flex-col gap-8 w-[400px] p-10 bg-white rounded-l-lg' >
             <h2 className='font-bold text-2xl'>Create Safe</h2>

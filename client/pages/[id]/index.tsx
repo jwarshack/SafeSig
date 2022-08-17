@@ -11,16 +11,16 @@ import SendNFTModal from '../../components/SendNFTModal'
 import ContractInteractionModal from '../../components/ContractInteractionModal'
 import Sidebar from '../../components/Sidebar'
 import Davatar from '@davatar/react'
+import { Wallet } from '../../typings'
 
-interface Wallet {
-  id: string
-  __typename: string
+interface Props {
+  wallet: Wallet
 }
 
 
+function Index({ wallet }: Props) {
 
-
-function Index() {
+  console.log(wallet)
 
   const [showModal, setShowModal] = useRecoilState(modalState)
 
@@ -35,16 +35,16 @@ function Index() {
       <SendFundsModal/>
       <SendNFTModal/>
       <ContractInteractionModal/>
-      <Sidebar />
+      <Sidebar wallet={wallet}/>
       <div className='flex flex-col gap-10 bg-[#f0f4f2] flex-1 p-8 w-full'>
         <h1 className='font-semibold text-2xl'>Dashboard</h1>  
         <div className='flex flex-col gap-8 bg-white p-4 rounded-lg'>
           <Davatar
             size={55}
-            address='0xdAC13042229bB1EA919368eddA8A06d05bBA4560'
+            address={wallet.id}
             generatedAvatarType='blockies'
           />
-          <p className='text-gray-400'>0xdAC13042229bB1EA919368eddA8A06d05bBA4560</p>
+          <p className='text-gray-400'>{wallet.id}</p>
 
           <div className='flex gap-20'>
             <div className='flex flex-col gap-2'>
@@ -60,6 +60,9 @@ function Index() {
         </div>    
         <h2 className='font-semibold text-lg'>Transaction Queue</h2>
         <div className='flex flex-col gap-8 bg-white p-4 rounded-lg'>
+          {
+            wallet.transactions.length === 0 ? 'There are no Transactions' : 'Transaction 1'
+          }
 
         </div>
 
@@ -74,40 +77,53 @@ function Index() {
 
 export default Index
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getServerSideProps: GetServerSideProps = async (ctx): Promise<any> => {
+  console.log(ctx.params?.id)
+
   const { data } = await client.query({
     query: gql`
     {
-      wallets {
+      wallets(where: {id: "${ctx.params?.id}"}) {
         id
+        transactions {
+          id
+          to
+          data
+          status
+        }
       }
     }
+    
     `
   })
-  const paths = data.wallets.map((wallet: Wallet) => {
+
+  if (data.wallets.length === 0) {
     return {
-      params: {
-        id: wallet.id
+      redirect: {
+        permanent: false,
+        destination: '/add'
       }
     }
-  })
-
-  return {
-    paths,
-    fallback: false
   }
-}
-
-
-export const getStaticProps: GetStaticProps = async (context): Promise<GetStaticPropsResult<string>></GetStaticPropsResult> => {
-
-  const sigAddress = context.params.id
-
+      
   return {
     props: {
-      sigAddress,
+      wallet: data.wallets[0]
     }
   }
-}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
 
