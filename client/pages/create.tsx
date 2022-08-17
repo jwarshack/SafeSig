@@ -92,7 +92,7 @@ function Create() {
 
     const ownersToSubmit = owners.map(owner => owner.address)
 
-    write({args: [ownersToSubmit, required], })
+    // write({args: [ownersToSubmit, required], })
 
     
 
