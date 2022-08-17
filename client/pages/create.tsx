@@ -6,6 +6,7 @@ import { BsTrash } from 'react-icons/bs'
 import Input from '../components/Input'
 import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi'
 import { FACTORTY_ABI, FACTORY_ADDRESS } from '../config'
+import Head from 'next/head'
 
 
 interface Owner {
@@ -84,12 +85,13 @@ function Create() {
   const createSafe = () => {
 
     if (owners.length === 0 || required === '' || required === null) {
+      console.log('set error message')
       return
     }
 
     const ownersToSubmit = owners.map(owner => owner.address)
 
-    // write({args: [ownersToSubmit, required], })
+    write({args: [ownersToSubmit, required], })
 
     
 
@@ -101,6 +103,9 @@ function Create() {
 
   return (
     <div className='h-full bg-[#f0f4f2]'>
+      <Head>
+        <title>Create a Safe</title>
+      </Head>
       <Header title='Create New Safe'/>
       <div className='flex flex-col gap-4 divide-y bg-white mx-10 rounded-xl shadow-lg p-10 w-full md:w-4/5'>
         <div className='flex flex-col gap-4'>

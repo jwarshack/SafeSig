@@ -26,8 +26,6 @@ function SendFundsModal() {
 
   const { write } = useContractWrite(config)
 
-  console.log(config)
-
 
   return (
     <MuiModal

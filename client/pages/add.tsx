@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import client from '../apolloClient'
 import Header from '../components/Header'
 import Input from '../components/Input'
+import Loader from '../components/Loader'
 
 
 interface Wallet {
@@ -14,6 +15,7 @@ interface Wallet {
 function Add() {
 
   const [safeToAdd, setSafeToAdd] = useState<string | null>()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const router = useRouter()
 
@@ -34,6 +36,7 @@ function Add() {
   }
 
   const addSafe = async () => {
+    setIsLoading(true)
     if (!safeToAdd) {
       return
     }
@@ -42,13 +45,19 @@ function Add() {
     const isValidSafe = validSafes.includes(lowerSafe!)
     if (!isValidSafe) {
       console.log('This safe is not valid')
+      setIsLoading(false)
       return
     }
 
+
     router.push(`/${lowerSafe}`)
+
+    setIsLoading(false)
 
 
   }
+
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>, id: string)=> {
     setSafeToAdd(e.target.value)
 
@@ -69,7 +78,8 @@ function Add() {
           className='button w-3/4 mx-auto'
           onClick={addSafe}
         >
-          Add Safe
+          {/* {!isLoading ? 'Add Safe' : <Loader color='white' />} */}
+
         </button>
         </div>
 

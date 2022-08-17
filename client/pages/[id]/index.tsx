@@ -1,4 +1,4 @@
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from 'next'
+import { GetServerSideProps, GetStaticPaths, GetStaticProps, GetStaticPropsResult } from 'next'
 import client from '../../apolloClient'
 import { gql } from '@apollo/client'
 import { useRouter } from 'next/router'
@@ -12,10 +12,11 @@ import ContractInteractionModal from '../../components/ContractInteractionModal'
 import Sidebar from '../../components/Sidebar'
 import Davatar from '@davatar/react'
 
-interface MultiSig {
+interface Wallet {
   id: string
   __typename: string
 }
+
 
 
 
@@ -73,55 +74,40 @@ function Index() {
 
 export default Index
 
-// export const getStaticPaths: GetStaticPaths = async () => {
-//   const { data } = await client.query({
-//     query: gql`
-//       {
-//         multiSigs {
-//           id
-//         }
-//       }
-//     `
-//   })
-//   const paths = data.multiSigs.map((multiSig: MultiSig) => {
-//     return {
-//       params: {
-//         id: multiSig.id
-//       }
-//     }
-//   })
+export const getStaticPaths: GetStaticPaths = async () => {
+  const { data } = await client.query({
+    query: gql`
+    {
+      wallets {
+        id
+      }
+    }
+    `
+  })
+  const paths = data.wallets.map((wallet: Wallet) => {
+    return {
+      params: {
+        id: wallet.id
+      }
+    }
+  })
 
-//   return {
-//     paths,
-//     fallback: false
-//   }
-// }
+  return {
+    paths,
+    fallback: false
+  }
+}
 
 
-// export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context): Promise<GetStaticPropsResult<string>></GetStaticPropsResult> => {
 
-//   const { data } = await client.query({
-//     query: gql`
-//       {
-//         multiSigs {
-//           id
-//         }
-//       }
-//     `
-//   })
+  const sigAddress = context.params.id
 
-//   const sigs = data.multiSigs.map((multiSig: MultiSig) => {
-//     return {
-//       params: {
-//         id: multiSig.id
-//       }
-//     }
-//   })
-
-//   return {
-//     sigs,
-//     // fallback: false
-//   }
-// }
+  return {
+    props: {
+      sigAddress,
+    }
+  }
+}
 
 
