@@ -29,19 +29,13 @@ function Create() {
     functionName: 'createMultiSig',
   })
 
-  const { write } = useContractWrite({
+  const {isLoading, error, write: createMultiSig}  = useContractWrite({
     ...config,
-    onMutate({ args, overrides }) {
-      console.log('Mutate', { args, overrides })
-    },
+    onMutate({ args, overrides}) {
+      console.log('mutate', {args, overrides})
+    }
   })
 
-  console.log('write', write)
-
-  console.log(FACTORTY_ABI)
-  console.log(FACTORY_ADDRESS)
-
- 
 
 
   useEffect(() => {
@@ -83,7 +77,7 @@ function Create() {
 
   }
 
-  const createSafe = () => {
+  const createSafe = async () => {
 
     if (owners.length === 0 || required === '' || required === null) {
       console.log('set error message')
@@ -91,12 +85,15 @@ function Create() {
     }
 
     const ownersToSubmit = owners.map(owner => owner.address)
+    console.log(ownersToSubmit)
 
-    // write({args: [ownersToSubmit, required], })
-
-    
+    const arguments1 = [ownersToSubmit, '1']
 
 
+
+    createMultiSig?.({
+      args: arguments1,
+    })
 
   }
 

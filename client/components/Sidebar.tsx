@@ -4,11 +4,12 @@ import { FaExternalLinkAlt, FaRegCopy } from 'react-icons/fa'
 import React, { useState } from 'react'
 import { useRecoilState } from 'recoil'
 import { modalState } from '../atoms/modalAtom'
-import { Accordion, AccordionDetails, AccordionSummary, } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Tooltip, } from '@mui/material'
 import { BsChevronDown, BsGithub } from 'react-icons/bs'
 import { AiOutlineHome } from 'react-icons/ai'
 import { RiCoinsLine, RiArrowUpDownFill } from 'react-icons/ri'
 import { Wallet }  from '../typings'
+import { useBalance } from 'wagmi'
 
 interface Props {
   wallet: Wallet
@@ -24,6 +25,10 @@ function Sidebar({ wallet }: Props) {
 
   const [showModal, setShowModal] = useRecoilState(modalState)
 
+  const { data: balance } = useBalance({
+    addressOrName: wallet.id
+  })
+
 
   return (
     <div className="flex flex-col w-[250px] divide-y-4 divide-gray-200">
@@ -35,25 +40,37 @@ function Sidebar({ wallet }: Props) {
         />
         <p className='text-gray-400 text-sm'>{shortAddress(wallet.id)}</p>
         <div className='flex gap-2'>
-          <button 
-            className='bg-[#f0f4f2] p-2 rounded text-green-600 hover:bg-green-100'
-            onClick={() => navigator.clipboard.writeText(wallet.id)}
+          <Tooltip 
+            title='Copy to clipboard' 
+            arrow
+            placement='top'
           >
+            <button 
+              className='bg-[#f0f4f2] p-2 rounded text-green-600 hover:bg-green-100'
+              onClick={() => navigator.clipboard.writeText(wallet.id)}
+            >
               <FaRegCopy />
             </button>
-          <a 
-            href={`https://rinkeby.etherscan.io/address/${wallet.id}`}
-            target='__blank'
-            rel='noopener noreferrer'
+          </Tooltip>
+          <Tooltip 
+            title='View on rinkebyetherscan.com' 
+            arrow
+            placement='top'
           >
-            <button className='bg-[#f0f4f2] p-2 rounded text-green-600 hover:bg-green-100'>
-              <FaExternalLinkAlt />
-            </button>
-          </a>
+            <a 
+              href={`https://rinkeby.etherscan.io/address/${wallet.id}`}
+              target='__blank'
+              rel='noopener noreferrer'
+            >
+              <button className='bg-[#f0f4f2] p-2 rounded text-green-600 hover:bg-green-100'>
+                <FaExternalLinkAlt />
+              </button>
+            </a>
+          </Tooltip>
         </div>
         <div className='text-center'>
           <p className='text-gray-400 text-sm'>Total Balance</p>
-          <p>0.00 RINK</p>
+          <p>{balance?.formatted} RINK</p>
         </div>
         <button 
           className='button text-sm py-3'
