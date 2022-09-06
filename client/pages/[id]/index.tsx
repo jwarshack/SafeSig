@@ -2,7 +2,7 @@ import { GetServerSideProps, GetStaticPaths, GetStaticProps, GetStaticPropsResul
 import client from '../../apolloClient'
 import { gql } from '@apollo/client'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import NewTxModal from '../../components/NewTxModal'
 import { useRecoilState } from 'recoil'
 import { modalState } from '../../atoms/modalAtom'
@@ -11,7 +11,9 @@ import SendNFTModal from '../../components/SendNFTModal'
 import ContractInteractionModal from '../../components/ContractInteractionModal'
 import Sidebar from '../../components/Sidebar'
 import Davatar from '@davatar/react'
-import { Wallet } from '../../typings'
+import { Wallet } from '../../typings' 
+import { useAccount, useContractRead } from 'wagmi'
+import { MULTISIG_ABI } from '../../config'
 
 interface Props {
   wallet: Wallet
@@ -22,11 +24,29 @@ function Index({ wallet }: Props) {
 
   console.log(wallet)
 
+  const { address } = useAccount()
+
   const [showModal, setShowModal] = useRecoilState(modalState)
+
+  const [isOwner, setIsOwner] = useState<boolean>(false)
 
   const router = useRouter()
 
   const { id } = router.query
+
+  const contractRead = useContractRead({
+    addressOrName: id! as string,
+    contractInterface: MULTISIG_ABI,
+    functionName: 'owners',
+  })
+
+  useEffect(() => {
+
+    console.log(contractRead)
+
+    
+
+  }, [])
 
   console.log(id)
   return (

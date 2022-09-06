@@ -1,13 +1,14 @@
 import Header from '../components/Header'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { v4 as uuid } from 'uuid'
-import { useState, useEffect, useRef, useCallback} from 'react'
+import { useState, useEffect} from 'react'
 import { BsTrash } from 'react-icons/bs'
 import Input from '../components/Input'
-import { useAccount, useContractWrite, usePrepareContractWrite } from 'wagmi'
+import { useAccount, useSigner } from 'wagmi'
 import { FACTORTY_ABI, FACTORY_ADDRESS } from '../config'
 import Head from 'next/head'
 import ConnectWallet from '../components/ConnectWallet'
+import { ethers } from 'ethers'
 
 
 interface Owner {
@@ -19,22 +20,14 @@ function Create() {
 
 
   const [owners, setOwners] = useState<Owner[]>([])
+  const [ownersToSubmit, setOwnersToSubmit] = useState<string[]>([])
   const [required, setRequired] = useState<string>()
 
   const { address } = useAccount()
 
-  const { config } = usePrepareContractWrite({
-    addressOrName: FACTORY_ADDRESS,
-    contractInterface: FACTORTY_ABI,
-    functionName: 'createMultiSig',
-  })
+  const { data: signer, isError, isLoading } = useSigner()
 
-  const {isLoading, error, write: createMultiSig}  = useContractWrite({
-    ...config,
-    onMutate({ args, overrides}) {
-      console.log('mutate', {args, overrides})
-    }
-  })
+
 
 
 
@@ -85,15 +78,17 @@ function Create() {
     }
 
     const ownersToSubmit = owners.map(owner => owner.address)
-    console.log(ownersToSubmit)
 
-    const arguments1 = [ownersToSubmit, '1']
+    if (signer) {
+      const factory = new ethers.Contract(FACTORY_ADDRESS, FACTORTY_ABI, signer!)
+      const tx = await factory.createMultiSig(ownersToSubmit, required)
+
+      await tx.wait()
+      console.log(tx)
+
+    }
 
 
-
-    createMultiSig?.({
-      args: arguments1,
-    })
 
   }
 
@@ -151,7 +146,7 @@ function Create() {
             </div>
             <button
               className='button'
-              onClick={createSafe}
+              onClick={() => createSafe()}
             >
               Create Safe
             </button>
